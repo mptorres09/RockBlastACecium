@@ -32,14 +32,9 @@ export class EntidadesService {
   	return this.lista;
   }
 
-  tick(){
+  tick():number{
     this.totalsegundos++;
-
-    if(this.totalsegundos%2==0){
-      this.totalentidades++;
-      this.crearEntidad();
-    }
-    console.log('tick');
+    return this.totalsegundos;
   }
 
   crearEntidad(): void{
