@@ -1,0 +1,16 @@
+<h1>Lista</h1>
+
+<table>
+	<thead>
+		<th>Nombre Entidad</th>
+		<th>Color</th>
+		<th>Tiempo</th>
+	</thead>
+	<tbody>
+		<tr *ngFor="let item of lista">
+			<td>{{item.nombre}}</td>
+			<td>{{item.color}}</td>
+			<td>{{item.tiempo}}</td>
+		</tr>
+	</tbody>
+</table>
