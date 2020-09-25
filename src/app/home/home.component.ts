@@ -10,11 +10,8 @@ import { EntidadesService } from './../entidades.service';
 })
 export class HomeComponent implements OnInit {
 	
-  cantidadEntidades:number;
-  totalSegundos:number;
-
   constructor(public _servicio:EntidadesService) {
-    
+    setInterval(() => _servicio.tick(), 1000);
   }
 
   ngOnInit(): void {

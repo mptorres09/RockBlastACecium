@@ -14,7 +14,6 @@ export class EntidadesComponent implements OnInit {
 
   constructor(public _servicio:EntidadesService) {
   	this.lista = _servicio.obtenerListaEntidades();
-  	setInterval(() => _servicio.tick(), 1000);
   }
 
   ngOnInit(): void {

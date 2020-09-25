@@ -17,6 +17,7 @@ export class VisorComponent implements OnInit {
 	itemActual: any;
 	xActual: number;
 	yActual: number;
+	tiempoVisor: number;
 
     constructor(public _servicio:EntidadesService) { 
   		setInterval(() => this.actualizarTiempo(), 1000);
@@ -26,17 +27,17 @@ export class VisorComponent implements OnInit {
 	  	this.viewer = new Cesium.Viewer("cesiumContainer",{imageryProvider:new Cesium.TileMapServiceImageryProvider({url:'assets/cesium/Assets/Textures/NaturalEarthII'}),baseLayerPicker:false,geocoder:false});
 
 	  	this.cargarPoligonoPrincipal(Cesium.Color.RED);
+	  	this.viewer.zoomTo(this.viewer.entities); 
 	  	this.xActual = -71.25;
 	  	this.yActual = -32.5;
 
 	  	this.generarNuevaEntidad();
-		this.viewer.zoomTo(this.viewer.entities); 
   	}
 
     actualizarTiempo():void{
-	  	var tiempoVisor = this._servicio.tick();
+	  	this.tiempoVisor = this._servicio.tick();
 
-	  	if(tiempoVisor%2==0){
+	  	if(this.tiempoVisor%2==0){
 	  		this.itemActual.show = false;
 	  		
 	  		this.calcularNuevasCoordenadas();
@@ -46,16 +47,38 @@ export class VisorComponent implements OnInit {
 
   	generarNuevaEntidad():void{
   		var itemColor = Cesium.Color.fromRandom();
-
+  		var nombreFigura = "";
   		var opcion = Math.floor( (Math.random() * 6) + 1);
-  		if(opcion == 1) this.dibujarCirculo(this.xActual,this.yActual,  itemColor);
-  		if(opcion == 2) this.dibujarCilindro(this.xActual,this.yActual,  itemColor);
-  		if(opcion == 3) this.dibujarLabel(this.xActual,this.yActual,  itemColor);
-  		if(opcion == 4) this.dibujarCaja(this.xActual,this.yActual,  itemColor);
-  		if(opcion == 5) this.dibujarElipse(this.xActual,this.yActual,  itemColor);
-  		if(opcion == 6) this.dibujarMarcadorPunto(this.xActual,this.yActual,  itemColor);
+  		if(opcion == 1){
+  			this.dibujarCirculo(this.xActual,this.yActual,  itemColor);
+  			nombreFigura = "Circulo";
+  		}
+  		if(opcion == 2){
+  			this.dibujarCilindro(this.xActual,this.yActual,  itemColor);
+  			nombreFigura = "Cilindro";
+  		}
+  		if(opcion == 3){
+  			this.dibujarLabel(this.xActual,this.yActual,  itemColor);
+  			nombreFigura = "Label";
+  		} 
+  		if(opcion == 4){
+  			this.dibujarCaja(this.xActual,this.yActual,  itemColor);
+  			nombreFigura = "Caja";
+  		} 
+  		if(opcion == 5){
+  			this.dibujarElipse(this.xActual,this.yActual,  itemColor);
+  			nombreFigura = "Elipse";
+  		} 
+  		if(opcion == 6){
+  			this.dibujarMarcadorPunto(this.xActual,this.yActual,  itemColor);
+			nombreFigura = "Marcador Punto";
+  		}
 
   		this.actualizarColorPoligono(itemColor);
+  		this._servicio.crearEntidad({nombre: nombreFigura,
+								      color: itemColor.toString(),
+								      tiempo:this.tiempoVisor
+								    });
   	}
 
   	calcularNuevasCoordenadas():void{

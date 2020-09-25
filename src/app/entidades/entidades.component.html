@@ -2,12 +2,14 @@
 
 <table>
 	<thead>
+		<th>Index</th>
 		<th>Nombre Entidad</th>
 		<th>Color</th>
 		<th>Tiempo</th>
 	</thead>
 	<tbody>
 		<tr *ngFor="let item of lista">
+			<td>{{item.index}}</td>
 			<td>{{item.nombre}}</td>
 			<td>{{item.color}}</td>
 			<td>{{item.tiempo}}</td>
